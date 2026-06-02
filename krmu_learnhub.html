@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRMU LearnHub — BCA AI & DS</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07090f;--bg2:#0e1117;--bg3:#141720;--bg4:#1c2030;
+  --border:#1f2637;--border2:#2d3550;
+  --text:#eef0f8;--text2:#8892b0;--text3:#4a5270;
+  --blue:#4b8bff;--blue2:#2563eb;--blue3:#1a3a8f;
+  --cyan:#18d9c4;--cyan2:#0d9488;
+  --green:#22c55e;--green2:#16a34a;
+  --gold:#f5a623;--orange:#fb923c;
+  --purple:#a78bfa;--purple2:#7c3aed;
+  --red:#f87171;--pink:#f472b6;
+  --indigo:#6366f1;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 10% 10%,rgba(75,139,255,.05) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 90% 90%,rgba(167,139,250,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(75,139,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(75,139,255,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sb{width:272px;background:rgba(14,17,23,.97);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;backdrop-filter:blur(24px)}
+.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(75,139,255,.07),rgba(167,139,250,.05))}
+.logo-row{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.logo-mark{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#4b8bff,#a78bfa);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;color:#fff;letter-spacing:-.5px;flex-shrink:0}
+.logo-name{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;background:linear-gradient(90deg,#eef0f8,#8892b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;color:var(--text3);letter-spacing:.4px}
+.xp-widget{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:11px 13px}
+.xp-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.xp-lv{font-size:11px;color:var(--text3);font-weight:600}
+.xp-pts{font-size:11px;color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace}
+.xp-bar{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--orange));border-radius:3px;width:58%;transition:width .4s}
+.xp-chips{display:flex;gap:7px;margin-top:8px}
+.chip{padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;border:1px solid}
+.chip-gold{background:rgba(245,166,35,.1);color:var(--gold);border-color:rgba(245,166,35,.25)}
+.chip-red{background:rgba(248,113,113,.08);color:var(--red);border-color:rgba(248,113,113,.2)}
+
+.nav-sec{padding:8px 8px 2px}
+.nav-glab{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;padding:7px 8px 3px}
+.nb{display:flex;align-items:center;gap:9px;width:100%;padding:7px 10px;border-radius:7px;border:none;background:none;color:var(--text2);font-size:12.5px;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:left;transition:all .15s;position:relative}
+.nb:hover{background:rgba(75,139,255,.07);color:var(--text)}
+.nb.active{background:rgba(75,139,255,.11);color:var(--blue);font-weight:600;border:1px solid rgba(75,139,255,.18)}
+.nb.active::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:2px;background:var(--blue);border-radius:0 2px 2px 0}
+.nb .ni{width:17px;height:17px;flex-shrink:0;font-size:13px;display:flex;align-items:center;justify-content:center}
+.nb .nr{margin-left:auto;display:flex;gap:4px}
+.pill{background:var(--bg3);border:1px solid var(--border);border-radius:9px;font-size:9px;padding:1px 6px;color:var(--text3);font-weight:700}
+.pill-new{background:rgba(24,217,196,.08);border-color:rgba(24,217,196,.2);color:var(--cyan);font-weight:800}
+.pill-hot{background:rgba(251,146,60,.08);border-color:rgba(251,146,60,.2);color:var(--orange)}
+
+.sb-footer{margin-top:auto;padding:11px 13px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color .2s}
+.user-card:hover{border-color:var(--border2)}
+.uav{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4b8bff,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.u-name{font-size:12.5px;font-weight:600}
+.u-lv{font-size:10px;color:var(--text3)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:52px;background:rgba(14,17,23,.95);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:11px;backdrop-filter:blur(20px);flex-shrink:0}
+.tb-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;flex:1}
+.tb-btn{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
+.tb-btn:hover{border-color:var(--blue);color:var(--blue)}
+.tb-btn.prim{background:var(--blue2);border-color:var(--blue2);color:#fff}
+.tb-btn.prim:hover{background:#1d4ed8}
+.ndot{width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:2px}
+
+.ca{flex:1;overflow-y:auto;padding:26px}
+.ca::-webkit-scrollbar{width:4px}.ca::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none}.page.active{display:block}
+
+/* ── SHARED COMPONENTS ── */
+.hero-banner{background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(124,58,237,.08),rgba(24,217,196,.06));border:1px solid var(--border2);border-radius:14px;padding:26px 28px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero-banner::after{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(75,139,255,.12),transparent 70%);pointer-events:none}
+.h-eye{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:7px}
+.h-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1.2;margin-bottom:8px}
+.h-title span{background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.h-sub{font-size:13px;color:var(--text2);line-height:1.65;max-width:540px;margin-bottom:18px}
+.cta-row{display:flex;gap:9px;flex-wrap:wrap}
+.btn{padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;box-shadow:0 0 18px rgba(75,139,255,.25)}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(75,139,255,.4)}
+.btn-s{background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text2)}
+.btn-s:hover{border-color:var(--blue);color:var(--blue)}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:22px}
+.sbox{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:15px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.sbox:hover{border-color:var(--border2)}
+.sbox::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--c,#4b8bff)}
+.sbox.b{--c:var(--blue)}.sbox.g{--c:var(--green)}.sbox.o{--c:var(--gold)}.sbox.p{--c:var(--purple)}
+.sico{font-size:17px;margin-bottom:7px}
+.snum{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--c,#4b8bff);margin-bottom:1px}
+.slbl{font-size:11px;color:var(--text3);font-weight:500}
+
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.sec-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.sec-link{font-size:12px;color:var(--blue);cursor:pointer;transition:opacity .15s}
+.sec-link:hover{opacity:.7}
+
+/* ── SUBJECT / COURSE CARDS ── */
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:26px}
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative}
+.cc:hover{transform:translateY(-2px);border-color:var(--border2);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.cc-top{padding:16px 15px 13px}
+.cc-em{font-size:24px;margin-bottom:9px;display:block}
+.cc-name{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:3px}
+.cc-desc{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:9px}
+.cc-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:9px;font-size:9.5px;font-weight:700;border:1px solid}
+.t-cpp{background:rgba(75,139,255,.1);color:var(--blue);border-color:rgba(75,139,255,.25)}
+.t-py{background:rgba(24,217,196,.08);color:var(--cyan);border-color:rgba(24,217,196,.2)}
+.t-ai{background:rgba(167,139,250,.1);color:var(--purple);border-color:rgba(167,139,250,.25)}
+.t-ds{background:rgba(99,102,241,.1);color:var(--indigo);border-color:rgba(99,102,241,.25)}
+.t-web{background:rgba(251,146,60,.1);color:var(--orange);border-color:rgba(251,146,60,.25)}
+.t-db{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.2)}
+.t-math{background:rgba(244,114,182,.1);color:var(--pink);border-color:rgba(244,114,182,.2)}
+.t-net{background:rgba(245,166,35,.1);color:var(--gold);border-color:rgba(245,166,35,.2)}
+.t-eng{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.2)}
+.cc-bot{padding:9px 15px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cc-pb{flex:1}
+.cc-pl{font-size:10px;color:var(--text3);margin-bottom:4px;display:flex;justify-content:space-between}
+.cc-bar{height:3px;background:var(--bg);border-radius:2px;overflow:hidden}
+.cc-fill{height:100%;border-radius:2px}
+.go{width:26px;height:26px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;transition:all .15s;color:var(--text2);flex-shrink:0}
+.go:hover{background:var(--blue2);border-color:var(--blue2);color:#fff}
+.cc-ribbon{position:absolute;top:11px;right:11px;padding:2px 7px;border-radius:9px;font-size:9px;font-weight:800}
+.rn{background:rgba(24,217,196,.08);border:1px solid rgba(24,217,196,.25);color:var(--cyan)}
+.rh{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);color:var(--orange)}
+
+/* ── SEMESTER ROADMAP ── */
+.sem-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.sem-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.sem-hd{padding:13px 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);cursor:pointer}
+.sem-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.sem-name{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;flex:1}
+.sem-meta{font-size:10px;color:var(--text3)}
+.sem-sub{font-size:10px;color:var(--text3);font-weight:500}
+.sem-body{padding:10px 15px}
+.sub-row{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s}
+.sub-row:last-child{border-bottom:none}
+.sub-row:hover{opacity:.8}
+.sub-icon{font-size:14px;width:22px;text-align:center;flex-shrink:0}
+.sub-info{flex:1}
+.sub-name{font-size:12px;font-weight:600;color:var(--text)}
+.sub-code{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.sub-cr{font-size:10px;color:var(--text2);margin-left:auto;flex-shrink:0}
+.sub-status{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.s-done{background:var(--green)}.s-progress{background:var(--blue)}.s-pending{background:var(--border2)}
+
+/* ── STEP CARDS (Lessons) ── */
+.lesson-layout{display:grid;grid-template-columns:1fr 294px;gap:18px}
+.lesson-hero{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.l-bc{font-size:10px;color:var(--text3);margin-bottom:8px;display:flex;gap:5px;align-items:center}
+.l-bc span{color:var(--text2)}
+.l-h{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;margin-bottom:5px}
+.l-desc{font-size:12.5px;color:var(--text2);line-height:1.65;margin-bottom:12px}
+.l-tags{display:flex;gap:7px;flex-wrap:wrap}
+.ltag{padding:3px 9px;border-radius:6px;font-size:10px;font-weight:700;border:1px solid}
+
+.step-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-bottom:11px;overflow:hidden;transition:border-color .2s}
+.step-block:hover{border-color:var(--border2)}
+.step-hd{display:flex;align-items:center;gap:11px;padding:13px 15px;cursor:pointer;user-select:none}
+.step-circle{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.sc-done{background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.35);color:var(--green)}
+.sc-act{background:rgba(75,139,255,.13);border:1px solid rgba(75,139,255,.35);color:var(--blue)}
+.sc-pend{background:var(--bg3);border:1px solid var(--border2);color:var(--text3)}
+.step-info{flex:1}
+.step-name{font-size:13.5px;font-weight:600;margin-bottom:1px}
+.step-type{font-size:9.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.step-tog{color:var(--text3);font-size:10px;transition:transform .2s}
+.step-tog.open{transform:rotate(90deg)}
+.step-bd{display:none;padding:0 15px 15px;border-top:1px solid var(--border)}
+.step-bd.open{display:block;padding-top:13px}
+.explain{font-size:12.5px;color:var(--text2);line-height:1.8;margin-bottom:12px}
+.explain strong{color:var(--text);font-weight:600}
+.explain code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(75,139,255,.07);border:1px solid rgba(75,139,255,.15);border-radius:4px;padding:1px 5px;color:var(--blue)}
+.tip{background:rgba(24,217,196,.04);border:1px solid rgba(24,217,196,.18);border-radius:8px;padding:9px 13px;margin-bottom:12px;font-size:12.5px;color:var(--text2);line-height:1.6}
+.tip strong{color:var(--cyan)}
+.warn{background:rgba(245,166,35,.04);border:1px solid rgba(245,166,35,.18);border-radius:8px;padding:9px 13px;margin-bottom:12px;font-size:12.5px;color:var(--text2);line-height:1.6}
+.warn strong{color:var(--gold)}
+
+/* Code blocks */
+.cb{background:#070d1c;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:11px 0}
+.cb-hd{background:rgba(20,23,32,.9);padding:7px 13px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+.dots{display:flex;gap:5px}.d{width:10px;height:10px;border-radius:50%}
+.d.r{background:#ff5f57}.d.y{background:#ffbd2e}.d.g{background:#28c840}
+.cb-lang{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text3);margin-left:4px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.cp{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--text3);font-size:10px;padding:2px 9px;border-radius:5px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all .15s}
+.cp:hover{border-color:var(--blue);color:var(--blue)}
+.cb-pre{padding:13px 15px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.75;overflow-x:auto;white-space:pre}
+.kw{color:#ff79c6}.fn{color:#8be9fd}.str{color:#f1fa8c}.num{color:#bd93f9}.cm{color:#6272a4;font-style:italic}.inc{color:#ffb86c}.tp{color:#8be9fd}.op{color:#ff79c6}
+
+/* Quiz */
+.quiz-wrap{background:rgba(245,166,35,.03);border:1px solid rgba(245,166,35,.18);border-radius:9px;padding:14px;margin-top:12px}
+.quiz-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.quiz-icon{font-size:13px}
+.quiz-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gold)}
+.quiz-q{font-size:13px;font-weight:500;margin-bottom:11px;line-height:1.6;color:var(--text)}
+.quiz-opts{display:grid;gap:6px}
+.qo{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:9px 13px;font-size:12.5px;cursor:pointer;text-align:left;color:var(--text2);transition:all .15s;font-family:'DM Sans',sans-serif;width:100%}
+.qo:hover:not(:disabled){border-color:var(--blue);color:var(--blue);background:rgba(75,139,255,.05)}
+.qo.correct{border-color:var(--green);background:rgba(34,197,94,.07);color:var(--green)!important}
+.qo.wrong{border-color:var(--red);background:rgba(248,113,113,.07);color:var(--red)!important}
+.quiz-fb{margin-top:9px;padding:9px 13px;border-radius:7px;font-size:12.5px;display:none}
+.quiz-fb.show{display:flex;align-items:center;gap:7px}
+.quiz-fb.ok{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.22);color:var(--green)}
+.quiz-fb.fail{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.18);color:var(--red)}
+
+/* Notes */
+.notes-wrap{margin-top:12px}
+.nlbl{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.nta{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:12.5px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:75px;outline:none;line-height:1.6;transition:border-color .15s}
+.nta:focus{border-color:var(--blue)}
+.nta::placeholder{color:var(--text3)}
+.sbtn{margin-top:7px;background:rgba(75,139,255,.09);border:1px solid rgba(75,139,255,.28);color:var(--blue);font-size:11.5px;padding:6px 16px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .15s}
+.sbtn:hover{background:var(--blue2);border-color:var(--blue2);color:#fff}
+
+/* Right sidebar widgets */
+.widget{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:14px;margin-bottom:13px}
+.w-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:11px;display:flex;align-items:center;gap:6px}
+.w-title span{font-size:13px}
+
+/* AI Mini */
+.ai-chat{display:flex;flex-direction:column;gap:7px;max-height:190px;overflow-y:auto;margin-bottom:9px}
+.ai-chat::-webkit-scrollbar{width:2px}.ai-chat::-webkit-scrollbar-thumb{background:var(--border)}
+.amsg{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:7px}
+.amsg.ai{background:rgba(75,139,255,.07);border:1px solid rgba(75,139,255,.13);color:var(--text2)}
+.amsg.user{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.18);color:var(--text2);align-self:flex-end}
+.ai-row{display:flex;gap:5px}
+.ai-inp{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 9px;color:var(--text);font-size:11.5px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.ai-inp:focus{border-color:var(--blue)}
+.ai-send{background:var(--blue2);border:none;border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:11px;flex-shrink:0}
+
+/* Checklist */
+.ci{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s}
+.ci:last-child{border-bottom:none}
+.ci:hover{opacity:.8}
+.cm-box{width:15px;height:15px;border-radius:4px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all .2s}
+.cm-box.ck{background:rgba(34,197,94,.13);border-color:rgba(34,197,94,.35);color:var(--green)}
+.ci-lbl{font-size:12px;color:var(--text2)}.ci-lbl.dn{text-decoration:line-through;color:var(--text3)}
+
+/* Resource links */
+.rl{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;text-decoration:none;transition:color .15s}
+.rl:last-child{border-bottom:none}
+.rl:hover .rl-name{color:var(--blue)}
+.rl-ico{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.rl-name{font-size:11.5px;color:var(--text2);transition:color .15s;flex:1}
+.rl-type{font-size:9px;color:var(--text3);font-weight:700}
+
+/* ── AI FULL PAGE ── */
+.aifull{display:flex;flex-direction:column;height:calc(100vh - 130px)}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px 0;display:flex;flex-direction:column;gap:13px}
+.chat-msgs::-webkit-scrollbar{width:3px}.chat-msgs::-webkit-scrollbar-thumb{background:var(--border)}
+.cmw{display:flex;gap:9px;align-items:flex-start}
+.cmw.user{flex-direction:row-reverse}
+.cav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.cav.ai{background:linear-gradient(135deg,var(--blue2),var(--purple2))}
+.cav.usr{background:linear-gradient(135deg,var(--green2),var(--cyan2))}
+.cbubble{max-width:70%;padding:10px 14px;border-radius:12px;font-size:12.5px;line-height:1.7}
+.cbubble.ai{background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:4px 12px 12px 12px}
+.cbubble.user{background:rgba(75,139,255,.1);border:1px solid rgba(75,139,255,.18);color:var(--text);border-radius:12px 4px 12px 12px}
+.cbubble code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;color:var(--cyan)}
+.chat-iz{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:13px 15px;margin-top:13px}
+.chat-iz textarea{width:100%;background:none;border:none;color:var(--text);font-size:12.5px;font-family:'DM Sans',sans-serif;outline:none;resize:none;line-height:1.6;min-height:55px;max-height:140px}
+.chat-iz textarea::placeholder{color:var(--text3)}
+.chat-ctrl{display:flex;align-items:center;justify-content:space-between;margin-top:7px;border-top:1px solid var(--border);padding-top:7px;gap:8px;flex-wrap:wrap}
+.qtags{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+.qtag{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.qtag:hover{border-color:var(--blue);color:var(--blue)}
+.chat-send{background:var(--blue2);border:none;border-radius:7px;padding:7px 16px;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s;flex-shrink:0}
+.chat-send:hover{opacity:.85}
+
+/* ── PROGRESS ── */
+.prog-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:22px}
+.pw{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:16px}
+.pw-t{font-size:12.5px;font-weight:700;margin-bottom:13px}
+.cpr{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.cpr:last-child{margin-bottom:0}
+.cico{font-size:14px;width:22px;text-align:center;flex-shrink:0}
+.cinfo{flex:1}
+.cn{font-size:11.5px;font-weight:600;margin-bottom:3px}
+.cbar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
+.cfill{height:100%;border-radius:2px}
+.cpct{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;min-width:26px;text-align:right}
+.act-feed{display:flex;flex-direction:column;gap:7px}
+.act{display:flex;gap:9px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:8px}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.atext{font-size:11.5px;color:var(--text2);line-height:1.5;flex:1}
+.atext strong{color:var(--text);font-weight:600}
+.atime{font-size:10px;color:var(--text3);margin-left:auto;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+
+/* ── CHALLENGES ── */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.chc{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:15px;cursor:pointer;transition:all .2s}
+.chc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.ch-top{display:flex;justify-content:space-between;margin-bottom:9px;align-items:flex-start}
+.ch-ico{font-size:22px}
+.diff{padding:2px 7px;border-radius:5px;font-size:9.5px;font-weight:800;border:1px solid}
+.d-easy{background:rgba(34,197,94,.07);color:var(--green);border-color:rgba(34,197,94,.22)}
+.d-med{background:rgba(245,166,35,.07);color:var(--gold);border-color:rgba(245,166,35,.22)}
+.d-hard{background:rgba(248,113,113,.07);color:var(--red);border-color:rgba(248,113,113,.18)}
+.ch-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.ch-desc{font-size:11.5px;color:var(--text3);line-height:1.5;margin-bottom:11px}
+.ch-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.ch-xp{font-size:10.5px;color:var(--gold);font-weight:800;margin-left:auto}
+
+/* ── LEADERBOARD ── */
+.lb-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:22px}
+.lb-row{display:flex;align-items:center;gap:11px;padding:10px 15px;border-bottom:1px solid var(--border)}
+.lb-row:last-child{border-bottom:none}
+.lb-row.you-row{background:rgba(75,139,255,.04);border-color:rgba(75,139,255,.15) !important}
+.lb-rank{width:26px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800}
+.r1{color:var(--gold)}.r2{color:#c0c0c0}.r3{color:#cd7f32}
+.lb-av{width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.lb-name{flex:1;font-size:12.5px;font-weight:500}
+.lb-xp{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);font-weight:700}
+.you-tag{background:rgba(75,139,255,.1);border:1px solid rgba(75,139,255,.22);border-radius:7px;font-size:9px;padding:1px 5px;color:var(--blue);font-weight:800;margin-left:5px}
+
+/* ── ACHIEVEMENTS ── */
+.ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.ach{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px;text-align:center;position:relative;cursor:pointer;transition:all .2s}
+.ach:hover{transform:translateY(-2px);border-color:var(--border2)}
+.ach.locked{opacity:.4;filter:grayscale(.5)}
+.ach-ico{width:42px;height:42px;border-radius:50%;margin:0 auto 7px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ach-name{font-size:11px;font-weight:700;margin-bottom:2px}
+.ach-desc{font-size:10px;color:var(--text3);line-height:1.4}
+.ach-lk{position:absolute;top:7px;right:7px;font-size:10px;opacity:.5}
+
+/* ── ENGLISH ── */
+.etabs{display:flex;gap:5px;margin-bottom:18px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:3px}
+.etab{flex:1;padding:7px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;border:none;background:none;color:var(--text2);font-family:'DM Sans',sans-serif;transition:all .15s}
+.etab.active{background:var(--blue2);color:#fff}
+.ec{display:none}.ec.active{display:block}
+.vocab-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:9px}
+.vc-word{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--blue);margin-bottom:3px}
+.vc-type{font-size:9.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.vc-def{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:7px}
+.vc-ex{font-size:11.5px;color:var(--text3);font-style:italic;border-left:2px solid var(--blue);padding-left:9px}
+.sp-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:11px}
+.sp-prompt{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.5}
+.sp-tip{font-size:11.5px;color:var(--text3);margin-bottom:11px}
+.rec-btn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:7px;padding:7px 16px;color:var(--red);font-size:12.5px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:background .15s}
+.rec-btn:hover{background:rgba(248,113,113,.16)}
+.gr-rule{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:9px}
+.gr-rule h3{font-size:13.5px;font-weight:700;margin-bottom:5px}
+.gr-rule p{font-size:12.5px;color:var(--text2);line-height:1.65;margin-bottom:7px}
+.gr-good{background:var(--bg3);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:7px 11px;font-size:12.5px;color:var(--text2);margin-bottom:5px}
+.gr-bad{background:var(--bg3);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:7px 11px;font-size:12.5px;color:var(--text2);margin-bottom:5px}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--bg2);border:1px solid var(--green);border-radius:9px;padding:11px 17px;font-size:12.5px;color:var(--green);font-weight:700;z-index:9999;transform:translateY(100px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:7px}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div id="toast" class="toast">✓ Saved!</div>
+<div class="app">
+
+<!-- ══ SIDEBAR ══ -->
+<div class="sb">
+  <div class="sb-logo">
+    <div class="logo-row">
+      <div class="logo-mark">BCA</div>
+      <div><div class="logo-name">KRMU LearnHub</div><div class="logo-sub">BCA AI & Data Science · Batch 2024</div></div>
+    </div>
+    <div class="xp-widget">
+      <div class="xp-top"><span class="xp-lv">⚡ Level 7 — Coder Apprentice</span><span class="xp-pts">3,240 XP</span></div>
+      <div class="xp-bar"><div class="xp-fill"></div></div>
+      <div class="xp-chips"><span class="chip chip-gold">🔥 7-day streak</span><span class="chip chip-red">760 to next level</span></div>
+    </div>
+  </div>
+
+  <div class="nav-sec">
+    <div class="nav-glab">Main</div>
+    <button class="nb active" onclick="showPage('dash',this)"><span class="ni">⊞</span> Dashboard</button>
+    <button class="nb" onclick="showPage('syllabus',this)"><span class="ni">🎓</span> My Syllabus <span class="nr"><span class="pill-hot pill">KRMU</span></span></button>
+    <button class="nb" onclick="showPage('progress',this)"><span class="ni">📊</span> Progress Report</button>
+    <button class="nb" onclick="showPage('challenges',this)"><span class="ni">⚡</span> Challenges <span class="nr"><span class="pill pill">12</span></span></button>
+    <button class="nb" onclick="showPage('ai',this)"><span class="ni">🤖</span> AI Tutor <span class="nr"><span class="pill-new pill">AI</span></span></button>
+
+    <div class="nav-glab" style="margin-top:7px">Semester Courses</div>
+    <button class="nb" onclick="showPage('cpp',this)"><span class="ni">🔵</span> C++ Programming</button>
+    <button class="nb" onclick="showPage('python',this)"><span class="ni">🐍</span> Python</button>
+    <button class="nb" onclick="showPage('dbms',this)"><span class="ni">🗄️</span> DBMS & SQL</button>
+    <button class="nb" onclick="showPage('ds',this)"><span class="ni">📊</span> Data Structures</button>
+    <button class="nb" onclick="showPage('ai_ml',this)"><span class="ni">🤖</span> AI & Machine Learning</button>
+    <button class="nb" onclick="showPage('math',this)"><span class="ni">📐</span> Maths for AI</button>
+    <button class="nb" onclick="showPage('web',this)"><span class="ni">🌐</span> Web Development</button>
+    <button class="nb" onclick="showPage('os',this)"><span class="ni">💻</span> OS & Networks</button>
+
+    <div class="nav-glab" style="margin-top:7px">Skills</div>
+    <button class="nb" onclick="showPage('english',this)"><span class="ni">🇬🇧</span> English (BC) <span class="nr"><span class="pill-new pill">New</span></span></button>
+    <button class="nb" onclick="showPage('leader',this)"><span class="ni">🏆</span> Leaderboard</button>
+  </div>
+
+  <div class="sb-footer">
+    <div class="user-card">
+      <div class="uav">S</div>
+      <div><div class="u-name">Student</div><div class="u-lv">KRMU · BCA AI&DS · Sem 1</div></div>
+      <span style="color:var(--text3);font-size:12px;margin-left:auto">⚙</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="tb-title">⊞ Dashboard</div>
+    <button class="tb-btn" onclick="showPage('ai',null)">🤖 Ask AI Tutor</button>
+    <button class="tb-btn">🔔<span class="ndot"></span></button>
+    <button class="tb-btn prim" onclick="showPage('challenges',null)">⚡ Daily Challenge</button>
+  </div>
+
+  <div class="ca">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="page active" id="page-dash">
+      <div class="hero-banner">
+        <div class="h-eye">KRMU · BCA AI & Data Science</div>
+        <div class="h-title">Welcome back, <span>Student! 👋</span></div>
+        <div class="h-sub">Your 3-year journey at K.R. Mangalam University starts here. Today's goal: Complete C++ Step 3 and review your Semester 1 subjects. You're on a 7-day streak — keep going! 🔥</div>
+        <div class="cta-row">
+          <button class="btn btn-p" onclick="showPage('syllabus',null)">🎓 View My Syllabus</button>
+          <button class="btn btn-s" onclick="showPage('cpp',null)">▶ Continue C++ Lesson</button>
+          <button class="btn btn-s" onclick="showPage('ai',null)">🤖 Ask AI Tutor</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="sbox b" onclick="showPage('progress',null)"><div class="sico">📚</div><div class="snum">8</div><div class="slbl">Subjects Active</div></div>
+        <div class="sbox g" onclick="showPage('challenges',null)"><div class="sico">⚡</div><div class="snum">24</div><div class="slbl">Challenges Done</div></div>
+        <div class="sbox o" onclick="showPage('leader',null)"><div class="sico">🏆</div><div class="snum">3,240</div><div class="slbl">Total XP · Rank #12</div></div>
+        <div class="sbox p" onclick="showPage('progress',null)"><div class="sico">🎯</div><div class="snum">87%</div><div class="slbl">Quiz Accuracy</div></div>
+      </div>
+
+      <div class="sec-head"><div class="sec-title">📚 Your Courses</div><span class="sec-link" onclick="showPage('syllabus',null)">Full syllabus →</span></div>
+      <div class="courses-grid">
+        <div class="cc" onclick="showPage('cpp',null)"><div class="cc-ribbon rh">🔥 Sem 1</div><div class="cc-top"><span class="cc-em">🔵</span><div class="cc-name">C++ Programming</div><div class="cc-desc">Problem solving, OOP, STL — core programming language for your BCA journey</div><span class="cc-tag t-cpp">C++</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>42%</span></div><div class="cc-bar"><div class="cc-fill" style="width:42%;background:var(--blue)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('python',null)"><div class="cc-top"><span class="cc-em">🐍</span><div class="cc-name">Python Programming</div><div class="cc-desc">AI/ML libraries, data analysis, scripting — the language of AI and Data Science</div><span class="cc-tag t-py">Python</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>28%</span></div><div class="cc-bar"><div class="cc-fill" style="width:28%;background:var(--cyan)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('dbms',null)"><div class="cc-top"><span class="cc-em">🗄️</span><div class="cc-name">DBMS & SQL</div><div class="cc-desc">Relational databases, SQL queries, normalization — manage and query real data</div><span class="cc-tag t-db">DBMS</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>15%</span></div><div class="cc-bar"><div class="cc-fill" style="width:15%;background:var(--green)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('ds',null)"><div class="cc-ribbon rn">Sem 2</div><div class="cc-top"><span class="cc-em">🌲</span><div class="cc-name">Data Structures</div><div class="cc-desc">Arrays, stacks, trees, graphs — the backbone of efficient programming</div><span class="cc-tag t-cpp">C++</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>0%</span></div><div class="cc-bar"><div class="cc-fill" style="width:0%;background:var(--purple)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('ai_ml',null)"><div class="cc-ribbon rn">Sem 3+</div><div class="cc-top"><span class="cc-em">🤖</span><div class="cc-name">AI & Machine Learning</div><div class="cc-desc">Supervised/unsupervised learning, neural networks — build intelligent systems</div><span class="cc-tag t-ai">AI/ML</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>0%</span></div><div class="cc-bar"><div class="cc-fill" style="width:0%;background:var(--purple)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('math',null)"><div class="cc-top"><span class="cc-em">📐</span><div class="cc-name">Maths for AI</div><div class="cc-desc">Linear algebra, probability, statistics, calculus — the math behind ML models</div><span class="cc-tag t-math">Maths</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>10%</span></div><div class="cc-bar"><div class="cc-fill" style="width:10%;background:var(--pink)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('web',null)"><div class="cc-top"><span class="cc-em">🌐</span><div class="cc-name">Web Development</div><div class="cc-desc">HTML, CSS, JavaScript, React — build real websites and web apps</div><span class="cc-tag t-web">Full Stack</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>55%</span></div><div class="cc-bar"><div class="cc-fill" style="width:55%;background:var(--orange)"></div></div></div><div class="go">→</div></div></div>
+        <div class="cc" onclick="showPage('english',null)"><div class="cc-ribbon rn">New</div><div class="cc-top"><span class="cc-em">🇬🇧</span><div class="cc-name">English Communication</div><div class="cc-desc">British Council resources — speaking, grammar, vocabulary for professionals</div><span class="cc-tag t-eng">English</span></div><div class="cc-bot"><div class="cc-pb"><div class="cc-pl"><span>10%</span></div><div class="cc-bar"><div class="cc-fill" style="width:10%;background:var(--green)"></div></div></div><div class="go">→</div></div></div>
+      </div>
+
+      <div class="sec-head"><div class="sec-title">🏅 Achievements</div></div>
+      <div class="ach-grid">
+        <div class="ach"><div class="ach-ico" style="background:rgba(245,166,35,.13)">🔥</div><div class="ach-name">On Fire!</div><div class="ach-desc">7-day streak</div></div>
+        <div class="ach"><div class="ach-ico" style="background:rgba(75,139,255,.13)">💡</div><div class="ach-name">First Quiz</div><div class="ach-desc">Scored 100%</div></div>
+        <div class="ach locked"><div class="ach-lk">🔒</div><div class="ach-ico" style="background:rgba(167,139,250,.1)">🚀</div><div class="ach-name">Project Pro</div><div class="ach-desc">Complete 1 project</div></div>
+        <div class="ach locked"><div class="ach-lk">🔒</div><div class="ach-ico" style="background:rgba(34,197,94,.1)">🎓</div><div class="ach-name">Sem 1 Clear</div><div class="ach-desc">Pass all 8 subjects</div></div>
+      </div>
+    </div>
+
+    <!-- ══ SYLLABUS PAGE ══ -->
+    <div class="page" id="page-syllabus">
+      <div class="hero-banner">
+        <div class="h-eye">K.R. Mangalam University · School of Engineering & Technology</div>
+        <div class="h-title">BCA <span>AI & Data Science</span> — Full Syllabus</div>
+        <div class="h-sub">3-Year Programme · 140 Credits · Powered by IBM & Microsoft Certifications. All your subjects mapped semester-by-semester, made easy to study.</div>
+      </div>
+      <div class="sem-grid">
+
+        <!-- SEM 1 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(75,139,255,.12);color:var(--blue)">S1</div><div><div class="sem-name">Semester 1</div><div class="sem-sub">Foundation · Core Programming</div></div><div class="sem-meta">8 subjects · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row" onclick="showPage('cpp',null)"><span class="sub-icon">🔵</span><div class="sub-info"><div class="sub-name">Programming in C++</div><div class="sub-code">BCA-101</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-progress"></div></div>
+            <div class="sub-row"><span class="sub-icon">📐</span><div class="sub-info"><div class="sub-name">Mathematics I (Discrete Maths)</div><div class="sub-code">BCA-102</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-progress"></div></div>
+            <div class="sub-row"><span class="sub-icon">💻</span><div class="sub-info"><div class="sub-name">Computer Fundamentals & OS</div><div class="sub-code">BCA-103</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-done"></div></div>
+            <div class="sub-row"><span class="sub-icon">🌐</span><div class="sub-info"><div class="sub-name">Web Technologies (HTML/CSS)</div><div class="sub-code">BCA-104</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-progress"></div></div>
+            <div class="sub-row"><span class="sub-icon">🗣️</span><div class="sub-info"><div class="sub-name">Communication Skills</div><div class="sub-code">BCA-105</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-done"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔬</span><div class="sub-info"><div class="sub-name">C++ Lab</div><div class="sub-code">BCA-106L</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-progress"></div></div>
+            <div class="sub-row"><span class="sub-icon">🌐</span><div class="sub-info"><div class="sub-name">Web Dev Lab</div><div class="sub-code">BCA-107L</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+
+        <!-- SEM 2 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(24,217,196,.1);color:var(--cyan)">S2</div><div><div class="sem-name">Semester 2</div><div class="sem-sub">Data Structures · Python</div></div><div class="sem-meta">8 subjects · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row" onclick="showPage('ds',null)"><span class="sub-icon">🌲</span><div class="sub-info"><div class="sub-name">Data Structures using C++</div><div class="sub-code">BCA-201</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row" onclick="showPage('python',null)"><span class="sub-icon">🐍</span><div class="sub-info"><div class="sub-name">Python Programming</div><div class="sub-code">BCA-202</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row" onclick="showPage('dbms',null)"><span class="sub-icon">🗄️</span><div class="sub-info"><div class="sub-name">Database Management Systems</div><div class="sub-code">BCA-203</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">📐</span><div class="sub-info"><div class="sub-name">Mathematics II (Probability & Stats)</div><div class="sub-code">BCA-204</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔢</span><div class="sub-info"><div class="sub-name">Digital Electronics & Logic</div><div class="sub-code">BCA-205</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔬</span><div class="sub-info"><div class="sub-name">Python Lab</div><div class="sub-code">BCA-206L</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🗄️</span><div class="sub-info"><div class="sub-name">DBMS Lab</div><div class="sub-code">BCA-207L</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+
+        <!-- SEM 3 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(167,139,250,.1);color:var(--purple)">S3</div><div><div class="sem-name">Semester 3</div><div class="sem-sub">AI Foundations · Networks</div></div><div class="sem-meta">8 subjects · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row" onclick="showPage('ai_ml',null)"><span class="sub-icon">🤖</span><div class="sub-info"><div class="sub-name">Artificial Intelligence</div><div class="sub-code">BCA-301</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔗</span><div class="sub-info"><div class="sub-name">Computer Networks</div><div class="sub-code">BCA-302</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">📊</span><div class="sub-info"><div class="sub-name">Data Science with Python</div><div class="sub-code">BCA-303</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">⚙️</span><div class="sub-info"><div class="sub-name">Software Engineering</div><div class="sub-code">BCA-304</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🎨</span><div class="sub-info"><div class="sub-name">UI/UX Design Principles</div><div class="sub-code">BCA-305</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔬</span><div class="sub-info"><div class="sub-name">AI/Data Science Lab</div><div class="sub-code">BCA-306L</div></div><span class="sub-cr">2 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+
+        <!-- SEM 4 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(34,197,94,.1);color:var(--green)">S4</div><div><div class="sem-name">Semester 4</div><div class="sem-sub">Machine Learning · Full Stack</div></div><div class="sem-meta">8 subjects · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row" onclick="showPage('ai_ml',null)"><span class="sub-icon">🧠</span><div class="sub-info"><div class="sub-name">Machine Learning</div><div class="sub-code">BCA-401</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row" onclick="showPage('web',null)"><span class="sub-icon">⚛️</span><div class="sub-info"><div class="sub-name">Full Stack Web Development</div><div class="sub-code">BCA-402</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">☁️</span><div class="sub-info"><div class="sub-name">Cloud Computing (IBM/Azure)</div><div class="sub-code">BCA-403</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔒</span><div class="sub-info"><div class="sub-name">Cyber Security Fundamentals</div><div class="sub-code">BCA-404</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">📦</span><div class="sub-info"><div class="sub-name">IoT & Embedded Systems</div><div class="sub-code">BCA-405</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🧪</span><div class="sub-info"><div class="sub-name">ML Lab + Mini Project</div><div class="sub-code">BCA-406L</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+
+        <!-- SEM 5 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(245,166,35,.1);color:var(--gold)">S5</div><div><div class="sem-name">Semester 5</div><div class="sem-sub">Deep Learning · Big Data · NLP</div></div><div class="sem-meta">Advanced · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row"><span class="sub-icon">🧬</span><div class="sub-info"><div class="sub-name">Deep Learning & Neural Networks</div><div class="sub-code">BCA-501</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">💬</span><div class="sub-info"><div class="sub-name">Natural Language Processing</div><div class="sub-code">BCA-502</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔢</span><div class="sub-info"><div class="sub-name">Big Data Analytics</div><div class="sub-code">BCA-503</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">📱</span><div class="sub-info"><div class="sub-name">Mobile App Development</div><div class="sub-code">BCA-504</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🏭</span><div class="sub-info"><div class="sub-name">Industry Internship</div><div class="sub-code">BCA-505I</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+
+        <!-- SEM 6 -->
+        <div class="sem-card">
+          <div class="sem-hd"><div class="sem-num" style="background:rgba(248,113,113,.1);color:var(--red)">S6</div><div><div class="sem-name">Semester 6</div><div class="sem-sub">Capstone Project · Placements</div></div><div class="sem-meta">Final Year · ~24 credits</div></div>
+          <div class="sem-body">
+            <div class="sub-row"><span class="sub-icon">🚀</span><div class="sub-info"><div class="sub-name">Major Capstone Project</div><div class="sub-code">BCA-601</div></div><span class="sub-cr">8 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">📊</span><div class="sub-info"><div class="sub-name">Advanced Data Science (IBM)</div><div class="sub-code">BCA-602</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">🔮</span><div class="sub-info"><div class="sub-name">Computer Vision</div><div class="sub-code">BCA-603</div></div><span class="sub-cr">4 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">⚖️</span><div class="sub-info"><div class="sub-name">AI Ethics & Responsible AI</div><div class="sub-code">BCA-604</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+            <div class="sub-row"><span class="sub-icon">💼</span><div class="sub-info"><div class="sub-name">Entrepreneurship & Startup</div><div class="sub-code">BCA-605</div></div><span class="sub-cr">3 cr</span><div class="sub-status s-pending"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-banner" style="background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(251,146,60,.06));border-color:rgba(245,166,35,.2)">
+        <div class="h-eye">Microsoft + IBM Certifications</div>
+        <div class="h-title" style="font-size:18px">Industry Certifications <span>included</span> in your BCA</div>
+        <div class="h-sub">Azure AI Engineer Associate, Azure Data Scientist Associate (Microsoft) + AI & Data Science modules (IBM). These boost your resume massively!</div>
+        <div class="cta-row">
+          <button class="btn btn-s">☁️ Azure Certification Path →</button>
+          <button class="btn btn-s">🏭 IBM AI Modules →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ C++ PAGE ══ -->
+    <div class="page" id="page-cpp">
+      <div class="lesson-layout">
+        <div>
+          <div class="lesson-hero">
+            <div class="l-bc">Syllabus <span>›</span> Semester 1 <span>›</span> C++ Programming (BCA-101)</div>
+            <div class="l-h">🔵 Programming in C++</div>
+            <div class="l-desc">Core programming language for your BCA. Linked to Love Babbar DSA sheet. Step-by-step from Hello World to OOP — every concept explained simply with code, quizzes, and notes.</div>
+            <div class="l-tags">
+              <span class="ltag t-cpp">BCA-101 · 4 Credits</span>
+              <span class="ltag" style="background:rgba(245,166,35,.08);color:var(--gold);border-color:rgba(245,166,35,.2)">Sem 1 Core</span>
+              <span class="ltag" style="background:rgba(34,197,94,.07);color:var(--green);border-color:rgba(34,197,94,.18)">📹 Love Babbar</span>
+            </div>
+          </div>
+
+          <!-- STEP 1 -->
+          <div class="step-block">
+            <div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-done">✓</div><div class="step-info"><div class="step-name">Step 1 — Hello World & Program Structure</div><div class="step-type">Concept · Code · Quiz</div></div><div class="step-tog">▶</div></div>
+            <div class="step-bd open">
+              <div class="explain">Every C++ program starts with <strong>main()</strong>. The compiler reads your code top to bottom. Include <code>#include &lt;iostream&gt;</code> to print output.</div>
+              <div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · hello.cpp</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="inc">#include &lt;iostream&gt;</span>   <span class="cm">// gives us cout and cin</span>
+<span class="kw">using namespace</span> <span class="tp">std</span>;   <span class="cm">// no need to write std:: every time</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    cout <span class="op">&lt;&lt;</span> <span class="str">"Hello, KRMU!"</span> <span class="op">&lt;&lt;</span> endl;
+    <span class="kw">return</span> <span class="num">0</span>;  <span class="cm">// 0 means program ran successfully</span>
+}</div></div>
+              <div class="tip">💡 <strong>Memory trick:</strong> <code>cout</code> = "Character OUT" → sends text to screen. <code>cin</code> = "Character IN" → reads from keyboard. Arrows show data direction: <code>&lt;&lt;</code> out, <code>&gt;&gt;</code> in.</div>
+              <div class="quiz-wrap"><div class="quiz-hd"><span class="quiz-icon">⭐</span><span class="quiz-label">Quick Quiz · +50 XP</span></div><div class="quiz-q">What does <code>#include &lt;iostream&gt;</code> do?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">It starts the main function</button><button class="qo" onclick="checkQ(this,'correct')">It loads the library for input/output (cout, cin)</button><button class="qo" onclick="checkQ(this,'wrong')">It ends the program</button></div><div class="quiz-fb"></div></div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="step-block">
+            <div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-done">✓</div><div class="step-info"><div class="step-name">Step 2 — Variables & Data Types</div><div class="step-type">Concept · Code · Quiz</div></div><div class="step-tog">▶</div></div>
+            <div class="step-bd">
+              <div class="explain">A <strong>variable</strong> is a named storage box. Declare type first, then name. C++ has 5 main types you'll use every day.</div>
+              <div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · datatypes.cpp</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="tp">int</span>    age    = <span class="num">20</span>;          <span class="cm">// whole number: -5, 0, 42</span>
+<span class="tp">double</span> cgpa   = <span class="num">8.5</span>;         <span class="cm">// decimal: 3.14, 9.99</span>
+<span class="tp">char</span>   grade  = <span class="str">'A'</span>;        <span class="cm">// ONE character, use ' '</span>
+<span class="tp">bool</span>   passed = <span class="kw">true</span>;       <span class="cm">// only true or false</span>
+<span class="tp">string</span> name   = <span class="str">"Rahul"</span>;    <span class="cm">// text, use " "</span>
+
+cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="str">" CGPA: "</span> <span class="op">&lt;&lt;</span> cgpa <span class="op">&lt;&lt;</span> endl;</div></div>
+              <div class="warn">⚠️ <strong>Common mistake:</strong> Don't use <code>'</code> single quotes for strings — that's for single characters only. Use <code>"</code> double quotes for text!</div>
+              <div class="quiz-wrap"><div class="quiz-hd"><span class="quiz-icon">⭐</span><span class="quiz-label">Quick Quiz · +50 XP</span></div><div class="quiz-q">Which type stores the value <code>9.81</code> (a decimal)?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">int</button><button class="qo" onclick="checkQ(this,'correct')">double</button><button class="qo" onclick="checkQ(this,'wrong')">char</button><button class="qo" onclick="checkQ(this,'wrong')">bool</button></div><div class="quiz-fb"></div></div>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="step-block">
+            <div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-act">3</div><div class="step-info"><div class="step-name">Step 3 — Control Flow (if/else & Loops)</div><div class="step-type">Code · Practice Challenge</div></div><div class="step-tog">▶</div></div>
+            <div class="step-bd">
+              <div class="explain">Control flow = deciding <strong>what runs</strong> and <strong>how many times</strong>. Master <code>if/else</code> for decisions, <code>for</code> and <code>while</code> loops for repetition.</div>
+              <div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · grading.cpp</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="tp">int</span> marks = <span class="num">78</span>;
+
+<span class="kw">if</span> (marks <span class="op">&gt;=</span> <span class="num">90</span>)      cout <span class="op">&lt;&lt;</span> <span class="str">"Grade A — Excellent!"</span>;
+<span class="kw">else if</span> (marks <span class="op">&gt;=</span> <span class="num">70</span>) cout <span class="op">&lt;&lt;</span> <span class="str">"Grade B — Good job!"</span>;  <span class="cm">// ← this runs</span>
+<span class="kw">else if</span> (marks <span class="op">&gt;=</span> <span class="num">50</span>) cout <span class="op">&lt;&lt;</span> <span class="str">"Grade C — Keep going!"</span>;
+<span class="kw">else</span>                 cout <span class="op">&lt;&lt;</span> <span class="str">"Grade F — Revise!"</span>;
+
+<span class="cm">// for loop: runs exactly 5 times</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i <span class="op">&lt;=</span> <span class="num">5</span>; i++) {
+    cout <span class="op">&lt;&lt;</span> <span class="str">"Count: "</span> <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> endl;
+}
+
+<span class="cm">// while loop: runs as long as condition is true</span>
+<span class="tp">int</span> n = <span class="num">1</span>;
+<span class="kw">while</span> (n <span class="op">&lt;=</span> <span class="num">5</span>) { cout <span class="op">&lt;&lt;</span> n<span class="op">*</span>n <span class="op">&lt;&lt;</span> <span class="str">" "</span>; n++; } <span class="cm">// prints: 1 4 9 16 25</span></div></div>
+              <div class="notes-wrap"><div class="nlbl">⚡ Mini Challenge — Write the 7 times table using a for loop (+100 XP)</div><textarea class="nta" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;min-height:100px" placeholder="for (int i = 1; i <= 10; i++) {&#10;    cout << &quot;7 x &quot; << i << &quot; = &quot; << ___ << endl;&#10;}"></textarea><button class="sbtn" onclick="showToast('Challenge submitted! +100 XP 🎉')">Submit +100 XP ⚡</button></div>
+              <div class="notes-wrap" style="margin-top:11px"><div class="nlbl">📝 My Notes</div><textarea class="nta" placeholder="Write your notes here..."></textarea><button class="sbtn" onclick="showToast('Notes saved! 📝')">Save Notes</button></div>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="step-block">
+            <div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">4</div><div class="step-info"><div class="step-name">Step 4 — Functions & Scope</div><div class="step-type">Concept · Code · Quiz</div></div><div class="step-tog">▶</div></div>
+            <div class="step-bd">
+              <div class="explain">A <strong>function</strong> is a reusable block of code. Write once, call many times. Functions have: return type, name, parameters, and a body.</div>
+              <div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · functions.cpp</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="kw">return</span> a <span class="op">+</span> b; }    <span class="cm">// returns int</span>
+<span class="tp">void</span> <span class="fn">greet</span>(<span class="tp">string</span> n)  { cout <span class="op">&lt;&lt;</span> <span class="str">"Hi, "</span> <span class="op">&lt;&lt;</span> n; }  <span class="cm">// void = no return</span>
+
+<span class="tp">double</span> <span class="fn">cgpaCalc</span>(<span class="tp">double</span> marks[], <span class="tp">int</span> n) {
+    <span class="tp">double</span> sum = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i <span class="op">&lt;</span> n; i++) sum <span class="op">+=</span> marks[i];
+    <span class="kw">return</span> sum / n;
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="fn">greet</span>(<span class="str">"Rahul"</span>);
+    cout <span class="op">&lt;&lt;</span> <span class="fn">add</span>(<span class="num">10</span>, <span class="num">25</span>);  <span class="cm">// 35</span>
+}</div></div>
+            </div>
+          </div>
+
+          <!-- STEP 5 OOP -->
+          <div class="step-block">
+            <div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">5</div><div class="step-info"><div class="step-name">Step 5 — OOP: Classes & Objects</div><div class="step-type">Advanced · Code · Project</div></div><div class="step-tog">▶</div></div>
+            <div class="step-bd">
+              <div class="explain">OOP = model real-world things as code objects. A <strong>class</strong> is the blueprint (e.g. "Student"), an <strong>object</strong> is a real instance (e.g. "Rahul"). Four pillars: Encapsulation, Inheritance, Polymorphism, Abstraction.</div>
+              <div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · Student class</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="kw">class</span> <span class="tp">Student</span> {
+<span class="kw">private</span>:
+    <span class="tp">string</span> name;  <span class="tp">double</span> cgpa;  <span class="cm">// private: only class can access</span>
+<span class="kw">public</span>:
+    <span class="cm">// Constructor — runs when object is created</span>
+    <span class="fn">Student</span>(<span class="tp">string</span> n, <span class="tp">double</span> c) : name(n), cgpa(c) {}
+
+    <span class="tp">void</span> <span class="fn">display</span>() {
+        cout <span class="op">&lt;&lt;</span> name <span class="op">&lt;&lt;</span> <span class="str">" — CGPA: "</span> <span class="op">&lt;&lt;</span> cgpa <span class="op">&lt;&lt;</span> endl;
+    }
+    <span class="tp">bool</span> <span class="fn">isTopper</span>() { <span class="kw">return</span> cgpa <span class="op">&gt;=</span> <span class="num">9.0</span>; }
+};
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">Student</span> s1(<span class="str">"Rahul"</span>, <span class="num">9.2</span>);  <span class="cm">// create object</span>
+    s1.<span class="fn">display</span>();
+    <span class="kw">if</span> (s1.<span class="fn">isTopper</span>()) cout <span class="op">&lt;&lt;</span> <span class="str">"🏆 Topper!"</span>;
+}</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right sidebar -->
+        <div>
+          <div class="widget"><div class="w-title"><span>🤖</span> AI Tutor</div>
+            <div class="ai-chat" id="mini-chat"><div class="amsg ai">Hi! Ask me anything about C++, OOP, pointers, or any concept you're stuck on! 👋</div></div>
+            <div class="ai-row"><input class="ai-inp" id="mini-inp" placeholder="Ask a C++ question..." onkeydown="if(event.key==='Enter')miniSend()"><button class="ai-send" onclick="miniSend()">↑</button></div>
+          </div>
+          <div class="widget"><div class="w-title"><span>✅</span> Checklist</div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box ck">✓</div><span class="ci-lbl dn">Hello World</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box ck">✓</div><span class="ci-lbl dn">Variables & Types</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box"></div><span class="ci-lbl">Control Flow</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box"></div><span class="ci-lbl">Functions</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box"></div><span class="ci-lbl">OOP & Classes</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box"></div><span class="ci-lbl">Pointers & Memory</span></div>
+            <div class="ci" onclick="toggleCheck(this)"><div class="cm-box"></div><span class="ci-lbl">STL (vectors, maps)</span></div>
+          </div>
+          <div class="widget"><div class="w-title"><span>🔗</span> Resources</div>
+            <a class="rl" href="https://www.youtube.com/results?search_query=c%2B%2B+love+babbar" target="_blank"><div class="rl-ico" style="background:rgba(248,113,113,.1)">▶</div><span class="rl-name">Love Babbar C++ Videos</span><span class="rl-type">YT</span></a>
+            <a class="rl" href="https://docs.google.com/spreadsheets/d/1QjhXvhSezzul2BaR4ToWfQTyEkINtYXEiGbUF5IBj64/edit" target="_blank"><div class="rl-ico" style="background:rgba(34,197,94,.1)">📊</div><span class="rl-name">DSA Sheet (450 Questions)</span><span class="rl-type">Sheets</span></a>
+            <a class="rl" href="https://docs.google.com/spreadsheets/d/1R9FLOkTGbpAZeGkQnOyYdcSKSntHmFA8X2imm6AoziA/edit" target="_blank"><div class="rl-ico" style="background:rgba(34,197,94,.1)">📊</div><span class="rl-name">DSA Sheet 2</span><span class="rl-type">Sheets</span></a>
+            <a class="rl" href="https://www.w3schools.com/cpp/" target="_blank"><div class="rl-ico" style="background:rgba(75,139,255,.1)">📚</div><span class="rl-name">W3Schools C++ Reference</span><span class="rl-type">Docs</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AI TUTOR FULL ══ -->
+    <div class="page" id="page-ai">
+      <div style="max-width:740px">
+        <div class="lesson-hero"><div class="l-h">🤖 AI Tutor — Ask Anything</div><div class="l-desc">Your 24/7 personal AI teacher. Ask about any KRMU BCA subject — C++, Python, DBMS, AI/ML, Maths, or English. Paste your errors, ask for explanations, or request practice problems.</div></div>
+        <div class="aifull">
+          <div class="chat-msgs" id="full-chat">
+            <div class="cmw"><div class="cav ai">🤖</div><div class="cbubble ai">Hello! I'm your AI Tutor for KRMU BCA AI & DS. I can help you with:<br><br>🔵 <strong>C++ & Data Structures</strong> (Sem 1 & 2)<br>🐍 <strong>Python & Data Science</strong> (Sem 2 & 3)<br>🗄️ <strong>DBMS & SQL</strong> (Sem 2)<br>🤖 <strong>AI & Machine Learning</strong> (Sem 3 & 4)<br>📐 <strong>Maths for AI</strong> — matrices, probability, stats<br>🇬🇧 <strong>English communication skills</strong><br>☁️ <strong>IBM & Microsoft Azure certifications</strong><br><br>What are you studying today?</div></div>
+          </div>
+          <div class="chat-iz">
+            <textarea id="full-inp" placeholder="Ask anything... e.g. 'Explain pointers in C++' or 'What is normalization in DBMS?' or 'How does a neural network work?'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();fullSend()}"></textarea>
+            <div class="chat-ctrl">
+              <div class="qtags">
+                <button class="qtag" onclick="qAsk('Explain pointers in C++ simply')">C++ Pointers</button>
+                <button class="qtag" onclick="qAsk('What is DBMS normalization? Explain 1NF 2NF 3NF')">DBMS Normal Forms</button>
+                <button class="qtag" onclick="qAsk('Explain machine learning simply with an example')">What is ML?</button>
+                <button class="qtag" onclick="qAsk('Give me a Python practice problem for beginners')">Python Practice</button>
+                <button class="qtag" onclick="qAsk('How to improve English communication for interviews?')">English Tips</button>
+                <button class="qtag" onclick="qAsk('What are the main KRMU BCA Sem 1 subjects I should focus on?')">Sem 1 Focus</button>
+              </div>
+              <button class="chat-send" onclick="fullSend()">Send ↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PROGRESS ══ -->
+    <div class="page" id="page-progress">
+      <div class="lesson-hero"><div class="l-h">📊 My Progress Report</div><div class="l-desc">Detailed view of your learning across all KRMU BCA AI & DS subjects — lessons, quizzes, XP, and activity.</div></div>
+      <div class="stats-row">
+        <div class="sbox b"><div class="sico">🔥</div><div class="snum">7</div><div class="slbl">Day Streak</div></div>
+        <div class="sbox g"><div class="sico">✅</div><div class="snum">24</div><div class="slbl">Lessons Done</div></div>
+        <div class="sbox o"><div class="sico">⚡</div><div class="snum">3,240</div><div class="slbl">Total XP</div></div>
+        <div class="sbox p"><div class="sico">🎯</div><div class="snum">87%</div><div class="slbl">Quiz Average</div></div>
+      </div>
+      <div class="prog-grid">
+        <div class="pw"><div class="pw-t">Subject Progress</div>
+          <div class="cpr"><span class="cico">🔵</span><div class="cinfo"><div class="cn">C++ Programming (BCA-101)</div><div class="cbar"><div class="cfill" style="width:42%;background:var(--blue)"></div></div></div><span class="cpct">42%</span></div>
+          <div class="cpr"><span class="cico">🌐</span><div class="cinfo"><div class="cn">Web Technologies (BCA-104)</div><div class="cbar"><div class="cfill" style="width:55%;background:var(--orange)"></div></div></div><span class="cpct">55%</span></div>
+          <div class="cpr"><span class="cico">🐍</span><div class="cinfo"><div class="cn">Python Programming (BCA-202)</div><div class="cbar"><div class="cfill" style="width:28%;background:var(--cyan)"></div></div></div><span class="cpct">28%</span></div>
+          <div class="cpr"><span class="cico">🗄️</span><div class="cinfo"><div class="cn">DBMS (BCA-203)</div><div class="cbar"><div class="cfill" style="width:15%;background:var(--green)"></div></div></div><span class="cpct">15%</span></div>
+          <div class="cpr"><span class="cico">📐</span><div class="cinfo"><div class="cn">Discrete Mathematics (BCA-102)</div><div class="cbar"><div class="cfill" style="width:10%;background:var(--pink)"></div></div></div><span class="cpct">10%</span></div>
+          <div class="cpr"><span class="cico">🇬🇧</span><div class="cinfo"><div class="cn">English Communication</div><div class="cbar"><div class="cfill" style="width:10%;background:var(--green)"></div></div></div><span class="cpct">10%</span></div>
+        </div>
+        <div class="pw"><div class="pw-t">Recent Activity</div>
+          <div class="act-feed">
+            <div class="act"><div class="adot" style="background:var(--blue)"></div><div class="atext"><strong>Completed</strong> C++ Step 2 — Variables</div><div class="atime">2h ago</div></div>
+            <div class="act"><div class="adot" style="background:var(--gold)"></div><div class="atext"><strong>Quiz passed</strong> 100% — Hello World C++</div><div class="atime">2h ago</div></div>
+            <div class="act"><div class="adot" style="background:var(--green)"></div><div class="atext"><strong>Achievement</strong> "On Fire!" 🔥 unlocked</div><div class="atime">Yesterday</div></div>
+            <div class="act"><div class="adot" style="background:var(--orange)"></div><div class="atext"><strong>Completed</strong> HTML Tags lesson</div><div class="atime">Yesterday</div></div>
+            <div class="act"><div class="adot" style="background:var(--purple)"></div><div class="atext"><strong>Challenge solved</strong> FizzBuzz in C++</div><div class="atime">2 days ago</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CHALLENGES ══ -->
+    <div class="page" id="page-challenges">
+      <div class="lesson-hero"><div class="l-h">⚡ Bite-Sized Challenges</div><div class="l-desc">Daily coding + language challenges mapped to your BCA syllabus. Short, focused, rewarding. Earn XP and climb the leaderboard!</div></div>
+      <div class="ch-grid">
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🔢</div><div class="diff d-easy">Easy</div></div><div class="ch-title">FizzBuzz</div><div class="ch-desc">Print 1–100: "Fizz" for ×3, "Buzz" for ×5, "FizzBuzz" for both. Classic interview question!</div><div class="ch-meta"><span class="cc-tag t-cpp">C++</span><span class="cc-tag t-py">Python</span><span class="ch-xp">+80 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🔁</div><div class="diff d-easy">Easy</div></div><div class="ch-title">Reverse a String</div><div class="ch-desc">Input a string, print it reversed. No built-in reverse allowed. Practice loops!</div><div class="ch-meta"><span class="cc-tag t-cpp">C++</span><span class="ch-xp">+80 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">📊</div><div class="diff d-easy">Easy</div></div><div class="ch-title">SQL: Student Grades</div><div class="ch-desc">Write a SQL query to find all students with CGPA > 8.0 from a Students table. Order by CGPA.</div><div class="ch-meta"><span class="cc-tag t-db">SQL</span><span class="ch-xp">+80 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🌐</div><div class="diff d-easy">Easy</div></div><div class="ch-title">Build a Nav Bar</div><div class="ch-desc">Create a responsive navigation bar with HTML + CSS. Include 5 links and a KRMU-style logo.</div><div class="ch-meta"><span class="cc-tag t-web">HTML</span><span class="ch-xp">+100 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🔍</div><div class="diff d-med">Medium</div></div><div class="ch-title">Binary Search (DSA)</div><div class="ch-desc">Implement binary search in C++. Search sorted array, return index. Sem 2 DSA topic!</div><div class="ch-meta"><span class="cc-tag t-cpp">C++</span><span class="ch-xp">+150 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🐍</div><div class="diff d-med">Medium</div></div><div class="ch-title">Python Data Analysis</div><div class="ch-desc">Load a CSV with pandas, find the mean/median of a column, and plot a bar chart with matplotlib.</div><div class="ch-meta"><span class="cc-tag t-py">Python</span><span class="ch-xp">+180 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🤖</div><div class="diff d-hard">Hard</div></div><div class="ch-title">Linear Regression</div><div class="ch-desc">Implement linear regression from scratch in Python using only NumPy. No scikit-learn!</div><div class="ch-meta"><span class="cc-tag t-ai">AI/ML</span><span class="ch-xp">+300 XP</span></div></div>
+        <div class="chc"><div class="ch-top"><div class="ch-ico">🗣️</div><div class="diff d-easy">Easy</div></div><div class="ch-title">Introduce Yourself</div><div class="ch-desc">English challenge: Record a 60-second professional self-introduction for a job interview.</div><div class="ch-meta"><span class="cc-tag t-eng">English</span><span class="ch-xp">+60 XP</span></div></div>
+      </div>
+    </div>
+
+    <!-- ══ ENGLISH ══ -->
+    <div class="page" id="page-english">
+      <div class="lesson-hero"><div class="l-h">🇬🇧 English Communication</div><div class="l-desc">Based on British Council free resources. Build professional English for interviews, presentations, and daily communication — essential for your IT career after KRMU.</div><div class="l-tags"><span class="ltag t-eng">BCA-105 Communication Skills</span><span class="ltag" style="background:rgba(24,217,196,.06);color:var(--cyan);border-color:rgba(24,217,196,.18)">British Council</span></div></div>
+      <div class="etabs"><button class="etab active" onclick="eTab(this,'vocab')">📖 Vocabulary</button><button class="etab" onclick="eTab(this,'speak')">🗣️ Speaking</button><button class="etab" onclick="eTab(this,'grammar')">✍️ Grammar</button><button class="etab" onclick="eTab(this,'quiz')">❓ Quiz</button></div>
+      <div class="ec active" id="ec-vocab">
+        <div class="vocab-card"><div class="vc-word">Articulate</div><div class="vc-type">Adj / Verb</div><div class="vc-def">To express ideas clearly and effectively in speech or writing.</div><div class="vc-ex">"She gave an articulate presentation about her AI project."</div></div>
+        <div class="vocab-card"><div class="vc-word">Concise</div><div class="vc-type">Adjective</div><div class="vc-def">Giving lots of information clearly and in few words.</div><div class="vc-ex">"Your code comments should be concise — one clear line, not a paragraph."</div></div>
+        <div class="vocab-card"><div class="vc-word">Elaborate</div><div class="vc-type">Verb</div><div class="vc-def">To explain or describe something in more detail.</div><div class="vc-ex">"Could you elaborate on how your machine learning model works?"</div></div>
+        <div class="vocab-card"><div class="vc-word">Implement</div><div class="vc-type">Verb</div><div class="vc-def">To put a plan or system into action — very common in tech!</div><div class="vc-ex">"We implemented the sorting algorithm using a binary search tree."</div></div>
+        <a href="https://learnenglish.britishcouncil.org/free-resources" target="_blank" class="btn btn-s" style="margin-top:10px">🔗 British Council Free Resources →</a>
+      </div>
+      <div class="ec" id="ec-speak">
+        <div class="sp-card"><div class="sp-prompt">🗣️ "Describe a technology that will change the world in the next 10 years."</div><div class="sp-tip">Speak for 60 seconds. Use: "In my opinion...", "For example...", "This will lead to..."</div><button class="rec-btn" onclick="showToast('Speaking practice started! +60 XP 🎙️')">🔴 Start Practice</button></div>
+        <div class="sp-card"><div class="sp-prompt">🗣️ "Why did you choose BCA AI & Data Science at KRMU?"</div><div class="sp-tip">Common interview question! Use: "I chose this because...", "My goal is to...", "KRMU offers..."</div><button class="rec-btn" onclick="showToast('Speaking practice started! +60 XP 🎙️')">🔴 Start Practice</button></div>
+        <div class="sp-card"><div class="sp-prompt">🗣️ "Explain what Machine Learning is to a non-technical person."</div><div class="sp-tip">Great for technical communication! Avoid jargon. Use simple analogies.</div><button class="rec-btn" onclick="showToast('Speaking practice started! +60 XP 🎙️')">🔴 Start Practice</button></div>
+      </div>
+      <div class="ec" id="ec-grammar">
+        <div class="gr-rule"><h3>Present Perfect vs Simple Past</h3><p>Simple Past = completed action at a specific time. Present Perfect = past action with present relevance.</p><div class="gr-bad">❌ "I have submitted the assignment yesterday."</div><div class="gr-good">✅ "I submitted the assignment yesterday." (Simple Past — specific time)<br>✅ "I have submitted the assignment." (Present Perfect — relevant now)</div></div>
+        <div class="gr-rule"><h3>Conditional Sentences</h3><p>First conditional = real/possible. Second conditional = hypothetical/imaginary.</p><div class="gr-good">✅ "If I study hard, I will pass the exam." (First — possible)<br>✅ "If I were a data scientist, I would work at Google." (Second — hypothetical)</div></div>
+        <div class="gr-rule"><h3>Technical Writing: Active vs Passive</h3><p>In technical writing, active voice is clearer and more direct than passive.</p><div class="gr-bad">❌ "The algorithm was implemented by the team." (Passive)</div><div class="gr-good">✅ "The team implemented the algorithm." (Active — clearer!)</div></div>
+      </div>
+      <div class="ec" id="ec-quiz">
+        <div class="quiz-wrap"><div class="quiz-hd"><span class="quiz-icon">❓</span><span class="quiz-label">Grammar Quiz · +50 XP</span></div><div class="quiz-q">Which sentence is grammatically correct?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">I have attended the lecture yesterday.</button><button class="qo" onclick="checkQ(this,'correct')">I attended the lecture yesterday.</button><button class="qo" onclick="checkQ(this,'wrong')">I was attending the lecture yesterday morning always.</button></div><div class="quiz-fb"></div></div>
+        <div class="quiz-wrap" style="margin-top:11px"><div class="quiz-hd"><span class="quiz-icon">❓</span><span class="quiz-label">Vocabulary Quiz · +50 XP</span></div><div class="quiz-q">What does "implement" mean in a technical context?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">To plan something on paper</button><button class="qo" onclick="checkQ(this,'correct')">To put a plan or system into action</button><button class="qo" onclick="checkQ(this,'wrong')">To delete a feature from code</button></div><div class="quiz-fb"></div></div>
+      </div>
+    </div>
+
+    <!-- ══ LEADERBOARD ══ -->
+    <div class="page" id="page-leader">
+      <div class="lesson-hero"><div class="l-h">🏆 KRMU BCA Leaderboard</div><div class="l-desc">Top learners this week. Complete lessons, quizzes, and challenges to earn XP and climb the ranks!</div></div>
+      <div class="lb-card">
+        <div class="lb-row"><span class="lb-rank r1">🥇</span><div class="lb-av" style="background:linear-gradient(135deg,#f59e0b,#f97316)">A</div><span class="lb-name">Arjun Singh</span><span class="lb-xp">12,400 XP</span></div>
+        <div class="lb-row"><span class="lb-rank r2">🥈</span><div class="lb-av" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">P</div><span class="lb-name">Priya Sharma</span><span class="lb-xp">10,850 XP</span></div>
+        <div class="lb-row"><span class="lb-rank r3">🥉</span><div class="lb-av" style="background:linear-gradient(135deg,#ef4444,#f97316)">R</div><span class="lb-name">Rohan Mehta</span><span class="lb-xp">9,200 XP</span></div>
+        <div class="lb-row"><span class="lb-rank" style="color:var(--text3)">4</span><div class="lb-av" style="background:linear-gradient(135deg,#0891b2,#22d3ee)">N</div><span class="lb-name">Neha Gupta</span><span class="lb-xp">7,600 XP</span></div>
+        <div class="lb-row you-row"><span class="lb-rank" style="color:var(--blue)">12</span><div class="lb-av" style="background:linear-gradient(135deg,#4b8bff,#a78bfa)">S</div><span class="lb-name">You <span class="you-tag">YOU</span></span><span class="lb-xp">3,240 XP</span></div>
+      </div>
+    </div>
+
+    <!-- ══ PYTHON PLACEHOLDER ══ -->
+    <div class="page" id="page-python">
+      <div class="lesson-hero"><div class="l-h">🐍 Python Programming — BCA-202</div><div class="l-desc">Semester 2 core subject. Python is the language of AI and Data Science. Learn syntax, libraries (NumPy, Pandas, Matplotlib), and build real data projects.</div><div class="l-tags"><span class="ltag t-py">Sem 2 · 4 Credits</span></div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">1</div><div class="step-info"><div class="step-name">Step 1 — Python Basics & Syntax</div><div class="step-type">Code · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="explain">Python is clean — no curly braces, no semicolons. Indentation matters!</div><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">Python · basics.py</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="cm"># Python is clean and readable!</span>
+name = <span class="str">"Rahul"</span>
+cgpa = <span class="num">9.2</span>
+subjects = [<span class="str">"C++"</span>, <span class="str">"Python"</span>, <span class="str">"DBMS"</span>]
+
+<span class="kw">print</span>(<span class="str">f"Hello {name}, CGPA: {cgpa}"</span>)   <span class="cm"># f-string</span>
+
+<span class="kw">for</span> sub <span class="kw">in</span> subjects:
+    <span class="kw">print</span>(<span class="str">f"  → {sub}"</span>)
+
+<span class="cm"># List comprehension (very Pythonic!)</span>
+squares = [x<span class="op">**</span><span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)]
+<span class="kw">print</span>(squares)  <span class="cm"># [1, 4, 9, 16, 25]</span></div></div><a href="https://www.w3schools.com/python/default.asp" target="_blank" class="sbtn" style="display:inline-flex;text-decoration:none;margin-top:8px">📚 W3Schools Python →</a></div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">2</div><div class="step-info"><div class="step-name">Step 2 — NumPy & Pandas for Data Science</div><div class="step-type">Code · AI Application</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">Python · data.py</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+marks = np.<span class="fn">array</span>([<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">90</span>, <span class="num">88</span>])
+<span class="kw">print</span>(<span class="str">f"Mean: {np.mean(marks):.1f}"</span>)    <span class="cm"># 86.6</span>
+<span class="kw">print</span>(<span class="str">f"Max:  {np.max(marks)}"</span>)          <span class="cm"># 92</span>
+
+<span class="cm"># DataFrame — like an Excel sheet in Python</span>
+df = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"Subject"</span>: [<span class="str">"C++"</span>, <span class="str">"Python"</span>, <span class="str">"DBMS"</span>],
+    <span class="str">"Marks"</span>:   [<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>]
+})
+<span class="kw">print</span>(df[df[<span class="str">"Marks"</span>] <span class="op">&gt;</span> <span class="num">80</span>])  <span class="cm"># filter rows</span></div></div></div></div>
+    </div>
+
+    <!-- ══ DBMS PLACEHOLDER ══ -->
+    <div class="page" id="page-dbms">
+      <div class="lesson-hero"><div class="l-h">🗄️ DBMS & SQL — BCA-203</div><div class="l-desc">Semester 2 subject. Learn relational databases, SQL queries, normalization (1NF/2NF/3NF), transactions, and database design.</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">1</div><div class="step-info"><div class="step-name">Step 1 — SQL Basics: CREATE, INSERT, SELECT</div><div class="step-type">Code · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">SQL · students.sql</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="cm">-- Create a Students table</span>
+<span class="kw">CREATE TABLE</span> Students (
+    StudentID  <span class="tp">INT</span> <span class="kw">PRIMARY KEY</span>,
+    Name       <span class="tp">VARCHAR</span>(<span class="num">50</span>),
+    CGPA       <span class="tp">DECIMAL</span>(<span class="num">3</span>,<span class="num">1</span>),
+    Semester   <span class="tp">INT</span>
+);
+
+<span class="cm">-- Insert data</span>
+<span class="kw">INSERT INTO</span> Students <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Rahul'</span>, <span class="num">9.2</span>, <span class="num">1</span>);
+<span class="kw">INSERT INTO</span> Students <span class="kw">VALUES</span> (<span class="num">2</span>, <span class="str">'Priya'</span>, <span class="num">8.5</span>, <span class="num">1</span>);
+
+<span class="cm">-- Query: find all toppers</span>
+<span class="kw">SELECT</span> Name, CGPA
+<span class="kw">FROM</span> Students
+<span class="kw">WHERE</span> CGPA <span class="op">&gt;</span> <span class="num">8.0</span>
+<span class="kw">ORDER BY</span> CGPA <span class="kw">DESC</span>;</div></div><div class="quiz-wrap"><div class="quiz-hd"><span class="quiz-icon">❓</span><span class="quiz-label">Quick Quiz · +50 XP</span></div><div class="quiz-q">Which SQL clause filters rows based on a condition?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">ORDER BY</button><button class="qo" onclick="checkQ(this,'correct')">WHERE</button><button class="qo" onclick="checkQ(this,'wrong')">GROUP BY</button><button class="qo" onclick="checkQ(this,'wrong')">SELECT</button></div><div class="quiz-fb"></div></div></div></div>
+    </div>
+
+    <!-- ══ DATA STRUCTURES ══ -->
+    <div class="page" id="page-ds">
+      <div class="lesson-hero"><div class="l-h">🌲 Data Structures — BCA-201</div><div class="l-desc">Semester 2 subject. Arrays, linked lists, stacks, queues, trees, graphs, and sorting algorithms — the backbone of efficient programming and coding interviews.</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">1</div><div class="step-info"><div class="step-name">Step 1 — Arrays & Linked Lists</div><div class="step-type">Code · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">C++ · array.cpp</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="cm">// Array: fixed size, index starts at 0</span>
+<span class="tp">int</span> marks[<span class="num">5</span>] = {<span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">90</span>, <span class="num">88</span>};
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">5</span>; i++)
+    cout <span class="op">&lt;&lt;</span> <span class="str">"marks["</span> <span class="op">&lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="str">"] = "</span> <span class="op">&lt;&lt;</span> marks[i] <span class="op">&lt;&lt;</span> endl;
+
+<span class="cm">// Vector (dynamic array — preferred in C++)</span>
+<span class="inc">#include &lt;vector&gt;</span>
+vector<span class="op">&lt;</span><span class="tp">int</span><span class="op">&gt;</span> v = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};
+v.<span class="fn">push_back</span>(<span class="num">40</span>);   <span class="cm">// add to end</span>
+v.<span class="fn">pop_back</span>();     <span class="cm">// remove from end</span></div></div></div></div>
+    </div>
+
+    <!-- ══ AI/ML ══ -->
+    <div class="page" id="page-ai_ml">
+      <div class="lesson-hero"><div class="l-h">🤖 AI & Machine Learning — BCA-301/401</div><div class="l-desc">Semester 3 & 4. Supervised, unsupervised, reinforcement learning. Neural networks, deep learning, NLP. Backed by IBM AI modules and Microsoft Azure certifications.</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">1</div><div class="step-info"><div class="step-name">Step 1 — What is Machine Learning?</div><div class="step-type">Concept · Code</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="explain">ML = teaching computers to <strong>learn from data</strong> without explicit programming. Three types: <strong>Supervised</strong> (labeled data), <strong>Unsupervised</strong> (no labels), <strong>Reinforcement</strong> (reward-based).</div><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">Python · linear_regression.py</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Hours studied vs exam score</span>
+X = np.<span class="fn">array</span>([[<span class="num">1</span>],[<span class="num">2</span>],[<span class="num">3</span>],[<span class="num">4</span>],[<span class="num">5</span>]])  <span class="cm"># hours</span>
+y = np.<span class="fn">array</span>([<span class="num">50</span>, <span class="num">60</span>, <span class="num">70</span>, <span class="num">80</span>, <span class="num">90</span>])    <span class="cm"># scores</span>
+
+model = <span class="fn">LinearRegression</span>()
+model.<span class="fn">fit</span>(X, y)                       <span class="cm"># TRAIN the model</span>
+
+prediction = model.<span class="fn">predict</span>([[<span class="num">6</span>]])   <span class="cm"># predict for 6 hours</span>
+<span class="kw">print</span>(<span class="str">f"Predicted score: {prediction[0]:.1f}"</span>)</div></div></div></div>
+    </div>
+
+    <!-- ══ MATHS ══ -->
+    <div class="page" id="page-math">
+      <div class="lesson-hero"><div class="l-h">📐 Maths for AI — BCA-102 & 204</div><div class="l-desc">Discrete Mathematics (Sem 1) + Probability & Statistics (Sem 2). The mathematical foundation for AI, ML, and Data Science. Everything made simple!</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-pend">1</div><div class="step-info"><div class="step-name">Step 1 — Probability Basics</div><div class="step-type">Concept · Formula · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="explain"><strong>Probability</strong> = likelihood of an event. P(A) = Favourable outcomes / Total outcomes. Always between 0 and 1.</div><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">Python · probability.py</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="cm"># P(rolling a 6 on a dice) = 1/6</span>
+total_outcomes = <span class="num">6</span>
+favorable = <span class="num">1</span>
+prob = favorable / total_outcomes
+<span class="kw">print</span>(<span class="str">f"P(6) = {prob:.4f}"</span>)       <span class="cm"># 0.1667</span>
+
+<span class="cm"># Mean, Median, Mode — key for Data Science</span>
+<span class="kw">import</span> statistics <span class="kw">as</span> stat
+data = [<span class="num">78</span>, <span class="num">85</span>, <span class="num">90</span>, <span class="num">85</span>, <span class="num">92</span>, <span class="num">88</span>]
+<span class="kw">print</span>(<span class="str">f"Mean:   {stat.mean(data)}"</span>)
+<span class="kw">print</span>(<span class="str">f"Median: {stat.median(data)}"</span>)
+<span class="kw">print</span>(<span class="str">f"Mode:   {stat.mode(data)}"</span>)</div></div></div></div>
+    </div>
+
+    <!-- ══ WEB ══ -->
+    <div class="page" id="page-web">
+      <div class="lesson-hero"><div class="l-h">🌐 Web Development — BCA-104 & 402</div><div class="l-desc">HTML/CSS in Sem 1, Full Stack (HTML + CSS + JS + React) in Sem 4. Build real websites and web apps. Referenced from W3Schools curriculum.</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-done">✓</div><div class="step-info"><div class="step-name">Step 1 — HTML Structure</div><div class="step-type">Code · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="cb"><div class="cb-hd"><div class="dots"><div class="d r"></div><div class="d y"></div><div class="d g"></div></div><span class="cb-lang">HTML · index.html</span><button class="cp" onclick="copyCode(this)">Copy</button></div><div class="cb-pre"><span class="op">&lt;!</span><span class="kw">DOCTYPE</span> html<span class="op">&gt;</span>
+<span class="op">&lt;</span><span class="fn">html</span> lang=<span class="str">"en"</span><span class="op">&gt;</span>
+<span class="op">&lt;</span><span class="fn">head</span><span class="op">&gt;</span>
+  <span class="op">&lt;</span><span class="fn">title</span><span class="op">&gt;</span>KRMU Student Portal<span class="op">&lt;/</span><span class="fn">title</span><span class="op">&gt;</span>
+<span class="op">&lt;/</span><span class="fn">head</span><span class="op">&gt;</span>
+<span class="op">&lt;</span><span class="fn">body</span><span class="op">&gt;</span>
+  <span class="op">&lt;</span><span class="fn">h1</span><span class="op">&gt;</span>Welcome to BCA AI & DS<span class="op">&lt;/</span><span class="fn">h1</span><span class="op">&gt;</span>
+  <span class="op">&lt;</span><span class="fn">p</span><span class="op">&gt;</span>Building the future with AI.<span class="op">&lt;/</span><span class="fn">p</span><span class="op">&gt;</span>
+<span class="op">&lt;/</span><span class="fn">body</span><span class="op">&gt;</span>
+<span class="op">&lt;/</span><span class="fn">html</span><span class="op">&gt;</span></div></div><div class="tip">💡 <strong>All resources:</strong> W3Schools HTML, CSS, JS, React — linked in sidebar resources.</div><a href="https://www.w3schools.com/html/default.asp" target="_blank" class="sbtn" style="display:inline-flex;text-decoration:none;margin-top:8px">📚 W3Schools HTML →</a></div></div>
+    </div>
+
+    <!-- ══ OS PAGE ══ -->
+    <div class="page" id="page-os">
+      <div class="lesson-hero"><div class="l-h">💻 Operating Systems & Networks — BCA-103/302</div><div class="l-desc">Computer Fundamentals & OS in Sem 1. Computer Networks in Sem 3. Processes, memory management, TCP/IP, routing — how computers work under the hood.</div></div>
+      <div class="step-block"><div class="step-hd" onclick="toggleStep(this)"><div class="step-circle sc-done">✓</div><div class="step-info"><div class="step-name">Step 1 — OS Concepts: Processes & Scheduling</div><div class="step-type">Concept · Quiz</div></div><div class="step-tog">▶</div></div><div class="step-bd"><div class="explain">An <strong>Operating System</strong> manages hardware and software. Key concepts: <strong>Process</strong> (running program), <strong>Thread</strong> (sub-process), <strong>Scheduling</strong> (who runs when), <strong>Memory Management</strong> (RAM allocation).</div><div class="tip">💡 <strong>Process States:</strong> New → Ready → Running → Waiting → Terminated. The OS scheduler decides which process gets CPU time using algorithms like FCFS, Round Robin, SJF.</div><div class="quiz-wrap"><div class="quiz-hd"><span class="quiz-icon">❓</span><span class="quiz-label">Quiz · +50 XP</span></div><div class="quiz-q">What does an Operating System primarily manage?</div><div class="quiz-opts"><button class="qo" onclick="checkQ(this,'wrong')">Only the file system</button><button class="qo" onclick="checkQ(this,'correct')">Hardware and software resources (CPU, memory, I/O)</button><button class="qo" onclick="checkQ(this,'wrong')">Only user interface</button></div><div class="quiz-fb"></div></div></div></div>
+    </div>
+
+  </div><!-- end .ca -->
+</div><!-- end .main -->
+</div><!-- end .app -->
+
+<script>
+// ── Page nav ──
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.nb').forEach(n => n.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const names = {dash:'⊞ Dashboard',syllabus:'🎓 KRMU Syllabus',cpp:'🔵 C++ Programming',python:'🐍 Python',dbms:'🗄️ DBMS & SQL',ds:'🌲 Data Structures',ai_ml:'🤖 AI & ML',math:'📐 Maths for AI',web:'🌐 Web Development',os:'💻 OS & Networks',english:'🇬🇧 English',progress:'📊 Progress',challenges:'⚡ Challenges',ai:'🤖 AI Tutor',leader:'🏆 Leaderboard'};
+  document.getElementById('tb-title').textContent = names[id] || id;
+}
+
+// ── Steps ──
+function toggleStep(hd) {
+  const bd = hd.nextElementSibling;
+  const tog = hd.querySelector('.step-tog');
+  const open = bd.classList.contains('open');
+  bd.classList.toggle('open', !open);
+  tog.classList.toggle('open', !open);
+}
+
+// ── Quiz ──
+function checkQ(btn, type) {
+  const opts = btn.closest('.quiz-opts');
+  opts.querySelectorAll('.qo').forEach(o => { o.disabled = true; o.style.cursor = 'default'; });
+  btn.classList.add(type);
+  const fb = btn.closest('.quiz-wrap').querySelector('.quiz-fb');
+  fb.classList.add('show');
+  if (type === 'correct') {
+    fb.className = 'quiz-fb show ok';
+    fb.textContent = '✓ Correct! +50 XP earned! 🎉';
+    showToast('+50 XP earned! 🎉');
+  } else {
+    fb.className = 'quiz-fb show fail';
+    const c = opts.querySelector('[onclick*="correct"]');
+    if (c) c.classList.add('correct');
+    fb.textContent = '✗ Not quite. Correct answer highlighted. Review the notes above!';
+  }
+}
+
+// ── Copy code ──
+function copyCode(btn) {
+  const pre = btn.closest('.cb').querySelector('.cb-pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = 'Copied!';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; }, 2000);
+  }).catch(() => { btn.textContent = 'Copy'; });
+}
+
+// ── Checklist ──
+function toggleCheck(item) {
+  const mark = item.querySelector('.cm-box');
+  const lbl = item.querySelector('.ci-lbl');
+  const done = mark.classList.contains('ck');
+  mark.classList.toggle('ck', !done);
+  mark.textContent = done ? '' : '✓';
+  lbl.classList.toggle('dn', !done);
+  if (!done) showToast('Step completed! +50 XP ✓');
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ── English tabs ──
+function eTab(btn, id) {
+  document.querySelectorAll('.etab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ec').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ec-' + id).classList.add('active');
+}
+
+// ── Mini AI chat ──
+const miniR = ["Great question! In C++, remember: every variable must have a type declared first. Try the example in the step above!", "Good thinking! Functions help you avoid repeating code — write once, call anywhere. That's the DRY principle!", "Check the code block above — the comments explain each line clearly. Try copying it and running it!", "In KRMU BCA, C++ is your Sem 1 foundation. Master loops and functions first — everything else builds on them!"];
+function miniSend() {
+  const inp = document.getElementById('mini-inp');
+  const chat = document.getElementById('mini-chat');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  chat.innerHTML += `<div class="amsg user">${msg}</div>`;
+  inp.value = '';
+  setTimeout(() => {
+    chat.innerHTML += `<div class="amsg ai">🤖 ${miniR[Math.floor(Math.random() * miniR.length)]}</div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 600);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// ── Full AI ──
+const aiDB = {
+  pointer: "In C++, a <strong>pointer</strong> stores the memory address of another variable.\n\n<code>int x = 42;</code>\n<code>int* ptr = &x;  // ptr holds x's address</code>\n<code>cout << *ptr;   // prints 42 (dereference)</code>\n\n🔑 <strong>Two key symbols:</strong>\n• <code>&</code> = address of\n• <code>*</code> = value at that address\n\nThink of a variable as a house, and a pointer as its street address!",
+  dbms: "Great DBMS question! <strong>Normalization</strong> removes data redundancy:\n\n📋 <strong>1NF</strong> — Each cell has ONE value, no repeating groups\n📋 <strong>2NF</strong> — 1NF + no partial dependencies on composite key\n📋 <strong>3NF</strong> — 2NF + no transitive dependencies\n\n<code>-- Example: Students(ID, Name, Dept, DeptHead)</code>\n<code>-- DeptHead depends on Dept, not ID → violates 3NF</code>\n<code>-- Solution: Split into Students + Departments tables</code>\n\nThis is a very common DBMS exam question! Study this well! 💪",
+  ml: "Machine Learning (ML) is teaching computers to <strong>learn from data</strong> without being explicitly programmed.\n\n🤖 <strong>Types of ML:</strong>\n• <strong>Supervised</strong> — labeled data (e.g. email spam detection)\n• <strong>Unsupervised</strong> — no labels (e.g. customer clustering)\n• <strong>Reinforcement</strong> — reward-based (e.g. game-playing AI)\n\n<code>from sklearn.linear_model import LinearRegression</code>\n<code>model = LinearRegression()</code>\n<code>model.fit(X_train, y_train)  # learn from data</code>\n<code>model.predict(X_test)        # make predictions</code>",
+  english: "To improve English for IT interviews at KRMU:\n\n🗣️ <strong>Daily Speaking Practice:</strong>\n• Describe your code in English out loud\n• Explain projects to classmates in English\n• Use British Council free resources daily\n\n📖 <strong>Key phrases for tech interviews:</strong>\n• 'I implemented this using...'\n• 'The time complexity is O(n)...'\n• 'I would approach this problem by...'\n\n✍️ <strong>Grammar tip:</strong> Use active voice — 'I built' not 'It was built by me'\n\nPractice the speaking challenges in the English section! 🎯",
+  sem1: "For KRMU BCA Semester 1, prioritize these subjects:\n\n🔵 <strong>C++ Programming (BCA-101)</strong> — 4 credits, most important!\n• Focus: Variables, loops, functions, OOP basics\n• Resource: Love Babbar YouTube + W3Schools C++\n\n📐 <strong>Discrete Maths (BCA-102)</strong> — Logic, sets, relations\n🌐 <strong>Web Technologies (BCA-104)</strong> — HTML + CSS basics\n💻 <strong>Computer Fundamentals (BCA-103)</strong> — OS concepts\n\n💡 <strong>Tip:</strong> Spend 60% of study time on C++ — it's the foundation for Data Structures in Sem 2!",
+  python: "Python is the language of AI! For BCA-202 in Sem 2:\n\n🐍 <strong>Core Python:</strong> variables, lists, dicts, loops, functions\n📊 <strong>NumPy:</strong> arrays and math — essential for ML\n📈 <strong>Pandas:</strong> data manipulation like Excel in Python\n📉 <strong>Matplotlib:</strong> plotting graphs and charts\n\n<code>import numpy as np</code>\n<code>import pandas as pd</code>\n<code>import matplotlib.pyplot as plt</code>\n\nMaster these 4 libraries and you're ready for Data Science! 💪",
+  default: ["Tell me which BCA subject you're studying and I'll help you break it down step by step!", "I can help with C++, Python, DBMS, AI/ML, Maths, or English. Which topic are you stuck on?", "Great question! Which semester are you in? That'll help me give you the most relevant answer.", "I'm here to help with your KRMU BCA syllabus! Ask me anything — concepts, code, or exam tips."]
+};
+
+function getReply(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('pointer') || m.includes('memory') || m.includes('address')) return aiDB.pointer;
+  if (m.includes('normal') || m.includes('dbms') || m.includes('1nf') || m.includes('sql') || m.includes('database')) return aiDB.dbms;
+  if (m.includes('machine learning') || m.includes('neural') || m.includes('ai') || m.includes('model')) return aiDB.ml;
+  if (m.includes('english') || m.includes('speak') || m.includes('communicat') || m.includes('grammar')) return aiDB.english;
+  if (m.includes('sem 1') || m.includes('semester 1') || m.includes('focus') || m.includes('subject')) return aiDB.sem1;
+  if (m.includes('python') || m.includes('pandas') || m.includes('numpy')) return aiDB.python;
+  return aiDB.default[Math.floor(Math.random() * aiDB.default.length)];
+}
+
+function fullSend() {
+  const inp = document.getElementById('full-inp');
+  const chat = document.getElementById('full-chat');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  chat.innerHTML += `<div class="cmw user"><div class="cav usr">S</div><div class="cbubble user">${msg}</div></div>`;
+  inp.value = '';
+  setTimeout(() => {
+    const rep = getReply(msg);
+    chat.innerHTML += `<div class="cmw"><div class="cav ai">🤖</div><div class="cbubble ai">${rep.replace(/\n/g, '<br>')}</div></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 700);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function qAsk(q) { document.getElementById('full-inp').value = q; fullSend(); }
+
+// Auto-open done steps
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.querySelector('.step-circle.sc-done');
+  if (first) {
+    const hd = first.closest('.step-hd');
+    if (hd) { const bd = hd.nextElementSibling; bd?.classList.add('open'); hd.querySelector('.step-tog')?.classList.add('open'); }
+  }
+});
+</script>
+</body>
+</html>
